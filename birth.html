@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Happy Birthday, ladkiiiii😋😋</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    :root {
+      --primary: #ff6b6b;
+      --secondary: #4ecdc4;
+      --light: #f7fff7;
+      --dark: #2f2d2e;
+      --accent: #ffd166;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      overflow-x: hidden;
+      width: 100%;
+    }
+    
+    /* Preloader */
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--light);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    
+    /* Preloader with fallback */
+    .preloader .cake {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      animation: bounce 1s infinite alternate;
+      background-color: var(--primary);
+      border-radius: 50%;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .preloader .cake::before {
+      content: "🎂";
+      font-size: 50px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    @keyframes bounce {
+      from { transform: translateY(0px); }
+      to { transform: translateY(-20px); }
+    }
+    
+    /* Header Section */
+    header {
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 20px;
+      max-width: 800px;
+      width: 90%;
+    }
+    
+    h1 {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      color: var(--primary);
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    
+    .header-text {
+      font-size: clamp(1rem, 4vw, 1.5rem);
+      margin-bottom: 30px;
+      line-height: 1.6;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    
+    .scroll-down {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 1s infinite alternate;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--secondary);
+    }
+    
+    /* Timeline Section */
+    .timeline-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, var(--light) 0%, #f0f5ff 100%);
+    }
+    
+    .timeline-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      padding: 0 20px;
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .timeline-date {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    
+    .timeline-content {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .timeline-img-container {
+      margin-bottom: 15px;
+      width: 100%;
+    }
+    
+    .timeline-img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+    
+    /* Make videos properly sized and responsive */
+    video.timeline-img {
+      object-fit: contain;
+      background-color: #000;
+      cursor: pointer;
+      display: block;
+      max-width: 100%;
+    }
+    
+    @media (max-width: 768px) {
+      .timeline-img {
+        max-height: 200px;
+      }
+      
+      video.timeline-img {
+        max-height: 200px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .timeline-img {
+        max-height: 180px;
+      }
+      
+      video.timeline-img {
+        max-height: 180px;
+      }
+    }
+    
+    .timeline-content h3 {
+      font-size: 1.5rem;
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+    
+    .timeline-content p {
+      font-size: 1rem;
+      color: var(--dark);
+    }
+    
+    /* Photo Timeline Styles */
+    .timeline {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .timeline-year {
+      margin-bottom: 50px;
+      border-left: 4px solid var(--primary);
+      padding-left: 30px;
+      position: relative;
+    }
+    
+    .timeline-year:before {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      left: -12px;
+      top: 5px;
+    }
+    
+    .year-label {
+      font-size: 2.2rem;
+      color: var(--primary);
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+    
+    .timeline-month {
+      margin-bottom: 40px;
+      position: relative;
+    }
+    
+    .timeline-month:before {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--secondary);
+      left: -36px;
+      top: 8px;
+    }
+    
+    .month-label {
+      font-size: 1.5rem;
+      color: var(--secondary);
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    
+    .timeline-photos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .timeline-photo {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .timeline-photo:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+    }
+    
+    .timeline-photo img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .photo-caption {
+      padding: 12px;
+      font-size: 14px;
+      text-align: center;
+      color: var(--dark);
+    }
+    
+    /* Gallery Section */
+    .gallery-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #f0f5ff 0%, var(--light) 100%);
+      text-align: center;
+    }
+    
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--secondary);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    
+    .gallery-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+    }
+    
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      height: 250px;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .gallery-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    
+    .gallery-item:hover .gallery-img {
+      transform: scale(1.1);
+    }
+    
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 15px;
+      transform: translateY(100%);
+      transition: transform 0.5s;
+    }
+    
+    .gallery-item:hover .gallery-caption {
+      transform: translateY(0);
+    }
+    
+    /* Message Section */
+    .message-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, var(--light) 0%, #f0f5ff 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .message-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(50px);
+      width: 90%;
+    }
+    
+    .message-content {
+      font-size: clamp(0.9rem, 3vw, 1.2rem);
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+    
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      opacity: 0;
+      transform: translateY(0);
+    }
+    
+    /* Interactive Elements */
+    .wish-button {
+      display: inline-block;
+      padding: 12px 25px;
+      background: var(--primary);
+      color: white;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+      margin-top: 20px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .wish-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+    }
+    
+    /* Wish Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      padding: 15px;
+    }
+    
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+      position: relative;
+      transform: translateY(50px);
+      transition: all 0.5s;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .modal.active .modal-content {
+      transform: translateY(0);
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--primary);
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 107, 107, 0.1);
+      transition: all 0.3s;
+    }
+    
+    .close-modal:hover {
+      background: rgba(255, 107, 107, 0.2);
+    }
+    
+    .wish-form input,
+    .wish-form textarea {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 2px solid #eee;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    
+    .wish-form textarea {
+      height: 150px;
+      resize: none;
+    }
+    
+    .wishes-display {
+      margin-top: 40px;
+      max-height: 250px;
+      overflow-y: auto;
+      padding: 15px;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    
+    .wish-card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      text-align: left;
+    }
+    
+    .wish-card h3 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .wish-card p {
+      margin-bottom: 10px;
+    }
+    
+    .wish-card small {
+      color: #999;
+    }
+    
+    /* Music player */
+    .music-player {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 100;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .music-player:hover {
+      transform: scale(1.1);
+    }
+    
+    .music-player.playing {
+      animation: pulse 1.5s infinite alternate;
+    }
+    
+    .music-icon {
+      color: white;
+      font-size: 1.5rem;
+    }
+    
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+    
+    /* Countdown */
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+    
+    .countdown-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 10px;
+    }
+    
+    .countdown-number {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-weight: bold;
+      color: var(--primary);
+    }
+    
+    .countdown-label {
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      color: var(--dark);
+    }
+    
+    /* Gift box animation */
+    .gift-container {
+      perspective: 1000px;
+      margin: 50px auto;
+      width: 180px;
+      height: 180px;
+      cursor: pointer;
+    }
+    
+    .gift {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(-20deg) rotateY(20deg);
+      transition: transform 1s;
+    }
+    
+    .gift:hover {
+      transform: rotateX(-5deg) rotateY(5deg);
+    }
+    
+    .gift.opened {
+      transform: rotateX(-120deg);
+    }
+    
+    .gift-top, .gift-bottom {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .gift-top {
+      background: var(--accent);
+      transform: translateZ(30px);
+      transform-origin: bottom;
+      transition: transform 1s;
+    }
+    
+    .gift.opened .gift-top {
+      transform: rotateX(-110deg) translateZ(100px);
+    }
+    
+    .gift-ribbon {
+      position: absolute;
+      width: 30px;
+      height: 100%;
+      background: var(--primary);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .gift-ribbon:after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 30px;
+      background: var(--primary);
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+    
+    .gift-bottom {
+      background: var(--secondary);
+      transform: rotateX(90deg) translateZ(100px);
+    }
+    
+    /* Footer */
+    footer {
+      padding: 30px 20px;
+      background: var(--dark);
+      color: white;
+      text-align: center;
+    }
+    
+    footer p {
+      margin-bottom: 10px;
+    }
+    
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ff4f4f;
+    }
+    
+    /* Responsive */
+    @media (min-width: 768px) {
+      .timeline-item {
+        flex-direction: row;
+        align-items: center;
+      }
+      
+      .timeline-date {
+        margin-right: 20px;
+        margin-bottom: 0;
+        flex-shrink: 0;
+      }
+      
+      .timeline-content {
+        flex-direction: row;
+      }
+      
+      .timeline-img-container {
+        margin-right: 20px;
+        margin-bottom: 0;
+        width: auto;
+        flex-shrink: 0;
+      }
+      
+      .timeline-img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .section-title {
+        margin-bottom: 30px;
+      }
+      
+      .timeline-section, 
+      .gallery-section, 
+      .message-section {
+        padding: 60px 0;
+      }
+      
+      .gallery-container {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 15px;
+      }
+      
+      .gallery-item {
+        height: 200px;
+      }
+      
+      .message-container {
+        padding: 20px;
+      }
+      
+      .modal-content {
+        padding: 25px 20px;
+      }
+      
+      .music-player {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+      }
+      
+      .music-icon {
+        font-size: 1.2rem;
+      }
+      
+      .gift-container {
+        width: 150px;
+        height: 150px;
+      }
+      
+      .timeline-year {
+        padding-left: 25px;
+      }
+      
+      .timeline-month:before {
+        left: -31px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .music-player {
+        bottom: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+      }
+      
+      .music-icon {
+        font-size: 1rem;
+      }
+      
+      .gallery-item {
+        height: 180px;
+      }
+      
+      .timeline-photos {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+      }
+      
+      .timeline-photo img {
+        height: 120px;
+      }
+      
+      .timeline-content p {
+        font-size: 0.9rem;
+      }
+      
+      .wish-form input,
+      .wish-form textarea {
+        padding: 12px;
+      }
+      
+      .wish-card {
+        padding: 12px;
+      }
+      
+      .gift-container {
+        width: 130px;
+        height: 130px;
+      }
+      
+      .scroll-down {
+        bottom: 30px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Preloader -->
+  <div class="preloader">
+    <img src="music/cake.png" alt="Birthday Cake" class="cake">
+  </div>
+  
+  <!-- Header Section -->
+  <header id="home">
+    <div id="particles-js"></div>
+    <div class="header-content">
+      <h1 class="title">Happy Birthday ladkiii!😋😋 </h1>
+      <p class="header-text">
+        "may all your dreams come true 😋 comeback msst ayega tera, mera ashirvad humesha tere sath hai 🤣🤣"majee kroo or
+         1 saal or budhi hogyi 🤣 , is saal tujhe acha ldka bhi miljaye mere jaisa msst 😋🤣. 
+      </p>
+      <div class="countdown-container">
+        <div class="countdown-item">
+          <span id="days" class="countdown-number">00</span>
+          <span class="countdown-label">Days</span>
+        </div>
+        <div class="countdown-item">
+          <span id="hours" class="countdown-number">00</span>
+          <span class="countdown-label">Hours</span>
+        </div>
+        <div class="countdown-item">
+          <span id="minutes" class="countdown-number">00</span>
+          <span class="countdown-label">Minutes</span>
+        </div>
+        <div class="countdown-item">
+          <span id="seconds" class="countdown-number">00</span>
+          <span class="countdown-label">Seconds</span>
+        </div>
+      </div>
+      <div class="gift-container">
+        <div class="gift" id="gift">
+          <div class="gift-top">
+            <div class="gift-ribbon"></div>
+          </div>
+          <div class="gift-bottom"></div>
+        </div>
+      </div>
+      <!-- <button class="wish-button" id="open-modal">Send Birthday Wish</button> -->
+    </div>
+    <div class="scroll-down" id="scroll-down">Scroll down for memories ↓</div>
+  </header>
+  
+  <!-- Memories Section with Timeline -->
+  <section class="timeline-section" id="memories">
+    <!-- <h2 class="section-title">Our Journey Together</h2> -->
+    <div class="timeline-container">
+      <div class="timeline-item">
+        <div class="timeline-date">Oct 2021</div>
+        <div class="timeline-content">
+          <div class="timeline-img-container">
+            <img src="music/WhatsApp Image 2025-05-06 at 11.16.06 PM (1).jpeg" alt="First Meeting" class="timeline-img">
+          </div>
+          <div>
+            <h3>Our First Meeting</h3>
+            <p>That amazing day when we first met and instantly connected!</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-date">dec 2021</div>
+        <div class="timeline-content">
+          <div class="timeline-img-container">
+            <img src="music/WhatsApp Image 2025-05-06 at 11.16.05 PM.jpeg" alt="Beach Trip" class="timeline-img">
+          </div>
+          <div>
+            <h3>the first story</h3>
+            <p>paheli story joh mere liye dali thi tunai birthday ki or first story bhi.🤣</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-date">feb 2022</div>
+        <div class="timeline-content">
+          <div class="timeline-img-container">
+            <video src="music/WhatsApp Video 2025-05-06 at 11.16.06 PM.mp4" alt="Hiking Adventure" class="timeline-img" controls></video>
+          </div>
+          <div>
+            <h3>that moj masti periods of ours</h3>
+            <p>mojmasti period msst maje kiye thai golden times.😋</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-date">mar 2022</div>
+        <div class="timeline-content">
+          <div class="timeline-img-container">
+            <video src="music/WhatsApp Video 2025-05-06 at 11.16.08 PM.mp4" alt="Halloween Party" class="timeline-img" controls></video>
+          </div>
+          <div>
+            <h3>another moj-masti period</h3>
+            <p>another bakchodi of ours! 😋🤣</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-date">mar 2022</div>
+        <div class="timeline-content">
+          <div class="timeline-img-container">
+            <img src="music/WhatsApp Image 2025-05-06 at 11.16.05 PM (2).jpeg" alt="Holiday Season" class="timeline-img">
+          </div>
+          <div>
+            <h3>last time</h3>
+            <p>last time of our college jha se humari dosti ka long distance chalu honai wla tha 😔🤣</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-date">april 2022</div>
+        <div class="timeline-content">
+          <div class="timeline-img-container">
+            <img src="music/WhatsApp Image 2025-05-06 at 11.16.02 PM.jpeg" alt="Last Birthday" class="timeline-img">
+          </div>
+          <div>
+            <h3>the last day</h3>
+            <p>the last day but humari dosti ka nhi bss roj milnai wala din se 😭🤣</p>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">may 2022</div>
+        <div class="timeline-content">
+          <div class="timeline-img-container">
+            <img src="music/WhatsApp Image 2025-05-06 at 11.16.02 PM (1).jpeg" alt="Last Birthday" class="timeline-img">
+          </div>
+          <div>
+            <h3>first birthday story joh maine dali</h3>
+            <p></p>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">september 2024</div>
+        <div class="timeline-content">
+          <div class="timeline-img-container">
+            <img src="music/WhatsApp Image 2025-05-06 at 11.16.02 PM.jpeg" alt="Life time bakchodi" class="timeline-img">
+          </div>
+          <div>
+            <h3>life time bakchodi</h3>
+            <p>huhh🥱 humesha ki bakchodi </p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-date">october 2024</div>
+        <div class="timeline-content">
+          <div class="timeline-img-container">
+            <video src="music/WhatsApp Video 2025-05-06 at 11.16.04 PM.mp4" alt="2nd Birthday Story" class="timeline-img" controls></video>
+          </div>
+          <div>
+            <h3>2nd birthdat ki story joh</h3>
+            <p>Memories that last forever! 😊</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-date">december 2024</div>
+        <div class="timeline-content">
+          <div class="timeline-img-container">
+            <video src="music/WhatsApp Video 2025-05-06 at 11.15.44 PM.mp4" alt="Never Ending Friendship" class="timeline-img" controls></video>
+          </div>
+          <div>
+            <h3>sooo heree thee never ending friendship</h3>
+            <p>Friends forever 🤗🫂</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+    
+   
+  
+  <!-- Gallery Section -->
+  <!-- <section class="gallery-section" id="gallery">
+    <h2 class="section-title">Photo Memories</h2>
+    <div class="gallery-container">
+      <div class="gallery-item">
+        <img src="/api/placeholder/400/300" alt="Memory 1" class="gallery-img">
+        <div class="gallery-caption">Weekend getaway to the mountains</div>
+      </div>
+      <div class="gallery-item">
+        <img src="/api/placeholder/400/300" alt="Memory 2" class="gallery-img">
+        <div class="gallery-caption">Cooking class disaster that ended in laughter</div>
+      </div>
+      <div class="gallery-item">
+        <img src="/api/placeholder/400/300" alt="Memory 3" class="gallery-img">
+        <div class="gallery-caption">Surprising you on your last birthday</div>
+      </div>
+      <div class="gallery-item">
+        <img src="/api/placeholder/400/300" alt="Memory 4" class="gallery-img">
+        <div class="gallery-caption">That time we tried surfing for the first time</div>
+      </div>
+      <div class="gallery-item">
+        <img src="/api/placeholder/400/300" alt="Memory 5" class="gallery-img">
+        <div class="gallery-caption">Coffee shop study sessions</div>
+      </div>
+      <div class="gallery-item">
+        <img src="/api/placeholder/400/300" alt="Memory 6" class="gallery-img">
+        <div class="gallery-caption">Karaoke night - your singing was... unique!</div>
+      </div>
+      <div class="gallery-item">
+        <img src="/api/placeholder/400/300" alt="Memory 7" class="gallery-img">
+        <div class="gallery-caption">Morning hikes with the best views</div>
+      </div>
+      <div class="gallery-item">
+        <img src="/api/placeholder/400/300" alt="Memory 8" class="gallery-img">
+        <div class="gallery-caption">Festival fun under the stars</div>
+      </div>
+      <div class="gallery-item">
+        <img src="/api/placeholder/400/300" alt="Memory 9" class="gallery-img">
+        <div class="gallery-caption">Game night champions</div>
+      </div>
+    </div>
+  </section>
+   -->
+  <!-- Message Section -->
+  <section class="message-section" id="message">
+    <div class="message-container">
+      <h2 class="section-title">Happyy birthdayyy bhaiiii</h2>
+      <div class="message-content">
+        <p>Dear ladkiii,</p>
+        <p>Bc yai banate banate mujhe yaad aaya humari sari achi memories ki koi photo he nhi hai mere paas bc😭😭🤣</p>
+        <p>bhai cry agya kya pata kyuu prr agya bc koi photo nhi bc joh memories kai liye dal ske prr koi nah maje toh msst kiye hai humnai yai 2021 se 2025 tkk
+          or obviously humesha krte rhengai bakchodi orr dusro ki bitching 🤣🤣. bc yai sbh kya kiya hai maine pata nhi kya bakchodi ki hai yai bana kr maine
+          prrr this is my pyar for you joh hua nhi achai se prr i tried 😔😔 bss khush reh tu or sari teri sari wish puri ho humesha or kya he chahiye hoga mujhe
+          meri beti aagai bade achai achai ladke milee sorrryy aek he acha ldka mile 😔🤣🤣.mai kya bad bada rh hu mujhe nhi pata bc prr you 
+          can understand my feeling my pyar for you soooo majee kroooo humesha krte rho bss krte rho majeee or mai toh hu he mera ashirvad bhi hai he tere sath.
+
+        </p>
+        <p>thenkss for always there for me</p>
+        <p>Happy Birthday! ladkii 🥰🥰🤗🤗🤗🤗🫂🫂🫂🫂🫂🫂</p>
+        <p>from your param mitra to my param mitra</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Wish Modal -->
+  <!-- <div class="modal" id="wishModal">
+    <div class="modal-content">
+      <span class="close-modal" id="close-modal">×</span>
+      <h2>Send Birthday Wishes</h2>
+      <form class="wish-form" id="wishForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <textarea id="wishMessage" placeholder="Write your birthday wish here..." required></textarea>
+        <button type="submit" class="wish-button">Send Wish</button>
+      </form>
+      <div class="wishes-display" id="wishesDisplay">
+        <h3>Birthday Wishes</h3>
+        <div class="wish-card">
+          <h3>Lisa</h3>
+          <p>Happy birthday! Wishing you all the happiness in the world on your special day!</p>
+          <small>May 6, 2025 at 9:30 AM</small>
+        </div>
+        <div class="wish-card">
+          <h3>Mike</h3>
+          <p>Many happy returns! May this year bring you success and joy in everything you do!</p>
+          <small>May 6, 2025 at 8:15 AM</small>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  
+  <!-- Music Player -->
+  <audio id="birthdaySong" loop>
+    <source src="music/birthday-song.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <div class="music-player" id="musicPlayer">
+    <div class="music-icon">♪</div>
+  </div>
+  
+  <!-- Footer -->
+  <footer>
+    <p>Created by sujata ka param mitra for nitin ki param mitra.🤗🤗🤣🤣🤣🤣</p>
+    <p></p>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Register GSAP ScrollTrigger plugin
+      gsap.registerPlugin(ScrollTrigger);
+      
+      // Initialize particles.js
+      particlesJS('particles-js', {
+        "particles": {
+          "number": {
+            "value": 80,
+            "density": {
+              "enable": true,
+              "value_area": 800
+            }
+          },
+          "color": {
+            "value": ["#ff6b6b", "#4ecdc4", "#ffd166"]
+          },
+          "shape": {
+            "type": ["circle", "triangle", "star"],
+            "stroke": {
+              "width": 0,
+              "color": "#000000"
+            }
+          },
+          "opacity": {
+            "value": 0.5,
+            "random": true
+          },
+          "size": {
+            "value": 5,
+            "random": true
+          },
+          "move": {
+            "enable": true,
+            "speed": 3,
+            "direction": "none",
+            "random": true,
+            "straight": false,
+            "out_mode": "out"
+          }
+        },
+        "interactivity": {
+          "detect_on": "canvas",
+          "events": {
+            "onhover": {
+              "enable": true,
+              "mode": "bubble"
+            },
+            "onclick": {
+              "enable": true,
+              "mode": "push"
+            }
+          },
+          "modes": {
+            "bubble": {
+              "distance": 250,
+              "size": 6,
+              "duration": 2,
+              "opacity": 0.8
+            },
+            "push": {
+              "particles_nb": 4
+            }
+          }
+        }
+      });
+      
+      // Remove preloader after page loads
+      setTimeout(function() {
+        document.querySelector('.preloader').style.display = 'none';
+      }, 1500);
+      
+      // Countdown Timer
+      function updateCountdown() {
+        const now = new Date();
+        // Set your friend's birthday here - Format: Year, Month (0-11), Day
+        const birthday = new Date(2025, 4, 7); // May 7th, 2025 (months are 0-based, so 4 = May)
+        
+        if (now > birthday) {
+          // If birthday has passed this year, set for next year
+          birthday.setFullYear(birthday.getFullYear() + 1);
+        }
+        
+        const diff = birthday - now;
+        
+        // Calculate time units
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        // Update countdown display
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+      }
+      
+      // Update countdown every second
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+      
+      // GSAP Animations
+      
+      // Header animations
+      gsap.to("h1.title", {
+        opacity: 1,
+        y: 0,
+        duration: 1.5,
+        ease: "back.out(1.7)"
+      });
+      
+      gsap.to(".header-text", {
+        opacity: 1,
+        y: 0,
+        duration: 1.5,
+        delay: 0.5,
+        ease: "back.out(1.7)"
+      });
+      
+      // Enhanced Timeline animations with responsive behavior
+      const animateItems = () => {
+        gsap.utils.toArray('.timeline-item').forEach((item, i) => {
+          const startX = window.innerWidth > 768 ? (i % 2 === 0 ? -50 : 50) : -30;
+          
+          gsap.set(item, { 
+            x: startX, 
+            opacity: 0,
+            transformPerspective: 1000
+          });
+          
+          ScrollTrigger.create({
+            trigger: item,
+            start: "top 85%",
+            end: "bottom 15%",
+            onEnter: () => {
+              gsap.to(item, {
+                x: 0,
+                opacity: 1,
+                duration: 0.8,
+                delay: i * 0.15,
+                ease: "back.out(1.2)",
+              });
+            },
+            onLeaveBack: () => {
+              gsap.to(item, {
+                x: startX,
+                opacity: 0,
+                duration: 0.5
+              });
+            }
+          });
+        });
+      };
+      
+      // Call animation on load and resize
+      animateItems();
+      
+      // Add resize handler with debounce
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          // Refresh ScrollTrigger and recreate animations on resize
+          ScrollTrigger.refresh();
+        }, 250);
+      });
+      
+      // Photo Timeline animations
+      gsap.utils.toArray('.timeline-year').forEach((year, i) => {
+        // Create animation for each year block
+        gsap.set(year, {
+          opacity: 0,
+          y: 50
+        });
+        
+        ScrollTrigger.create({
+          trigger: year,
+          start: "top 80%",
+          onEnter: () => {
+            gsap.to(year, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "back.out(1.2)"
+            });
+          }
+        });
+      });
+      
+      // Animate photos when they come into view
+      gsap.utils.toArray('.timeline-photo').forEach((photo, i) => {
+        gsap.set(photo, {
+          opacity: 0,
+          scale: 0.8,
+          y: 20
+        });
+        
+        ScrollTrigger.create({
+          trigger: photo,
+          start: "top 85%",
+          onEnter: () => {
+            gsap.to(photo, {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              duration: 0.6,
+              delay: i % 3 * 0.1, // Stagger based on position in row
+              ease: "back.out(1.7)"
+            });
+          }
+        });
+        
+        // Add hover/touch animations
+        const animateIn = () => {
+          gsap.to(photo, {
+            y: -10,
+            scale: 1.05,
+            boxShadow: "0 12px 20px rgba(0,0,0,0.15)",
+            duration: 0.3
+          });
+        };
+        
+        const animateOut = () => {
+          gsap.to(photo, {
+            y: 0,
+            scale: 1,
+            boxShadow: "0 5px 15px rgba(0,0,0,0.08)",
+            duration: 0.3
+          });
+        };
+        
+        // Support both mouse and touch events
+        photo.addEventListener('mouseenter', animateIn);
+        photo.addEventListener('mouseleave', animateOut);
+        photo.addEventListener('touchstart', animateIn, {passive: true});
+        photo.addEventListener('touchend', animateOut);
+      });
+      
+      // Gallery animations with responsive design considerations
+      gsap.utils.toArray(".gallery-item").forEach((item, i) => {
+        ScrollTrigger.create({
+          trigger: item,
+          start: "top 85%",
+          onEnter: () => {
+            gsap.to(item, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              delay: Math.min(i * 0.1, 0.5), // Cap the maximum delay
+              ease: "power3.out"
+            });
+          }
+        });
+      });
+      
+      // Message section animation
+      ScrollTrigger.create({
+        trigger: ".message-container",
+        start: "top 75%",
+        onEnter: () => {
+          gsap.to(".message-container", {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "power3.out"
+          });
+        }
+      });
+      
+      // Parallax effects - disable on mobile for performance
+      if (window.innerWidth > 768) {
+        gsap.utils.toArray('.timeline-img').forEach(image => {
+          gsap.to(image, {
+            yPercent: -20,
+            ease: "none",
+            scrollTrigger: {
+              trigger: image,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true
+            }
+          });
+        });
+      }
+      
+      // Gift box animation
+      const gift = document.getElementById('gift');
+      gift.addEventListener('click', function() {
+        this.classList.toggle('opened');
+        if (this.classList.contains('opened')) {
+          // Reduce confetti count on mobile for better performance
+          const confettiCount = window.innerWidth < 768 ? 50 : 100;
+          createConfetti(confettiCount);
+        }
+      });
+      
+      // Confetti animation
+      function createConfetti(count) {
+        const colors = ['#ff6b6b', '#4ecdc4', '#ffd166', '#ff9a8b', '#a3f7bf'];
+        
+        for (let i = 0; i < count; i++) {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.left = Math.random() * 100 + 'vw';
+          confetti.style.width = Math.random() * 15 + 5 + 'px';
+          confetti.style.height = Math.random() * 15 + 5 + 'px';
+          document.body.appendChild(confetti);
+          
+          gsap.to(confetti, {
+            y: '100vh',
+            x: Math.random() * 100 - 50,
+            rotation: Math.random() * 360,
+            duration: Math.random() * 3 + 2,
+            ease: "power1.out",
+            opacity: 0,
+            onComplete: () => {
+              confetti.remove();
+            }
+          });
+        }
+      }
+      
+      // Scroll down button with smooth scrolling behavior
+      document.getElementById('scroll-down').addEventListener('click', function() {
+        const memorySection = document.querySelector('.timeline-section');
+        const offset = memorySection.offsetTop;
+        
+        window.scrollTo({
+          top: offset,
+          behavior: 'smooth'
+        });
+      });
+      
+      // Modal handling with mobile optimizations
+      const modal = document.getElementById('wishModal');
+      const openModalBtn = document.getElementById('open-modal');
+      const closeModalBtn = document.getElementById('close-modal');
+      
+      openModalBtn.addEventListener('click', function() {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      });
+      
+      closeModalBtn.addEventListener('click', function() {
+        modal.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+      });
+      
+      window.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+      
+      // Form submission
+      document.getElementById('wishForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const message = document.getElementById('wishMessage').value;
+        
+        if (!name || !message) return;
+        
+        // Create new wish card
+        const wishCard = document.createElement('div');
+        wishCard.className = 'wish-card';
+        
+        const nameEl = document.createElement('h3');
+        nameEl.textContent = name;
+        
+        const messageEl = document.createElement('p');
+        messageEl.textContent = message;
+        
+        const dateEl = document.createElement('small');
+        const now = new Date();
+        dateEl.textContent = now.toLocaleDateString() + ' at ' + now.toLocaleTimeString();
+        
+        wishCard.appendChild(nameEl);
+        wishCard.appendChild(messageEl);
+        wishCard.appendChild(dateEl);
+        
+        // Add to wishes display
+        document.getElementById('wishesDisplay').prepend(wishCard);
+        
+        // Clear form
+        document.getElementById('name').value = '';
+        document.getElementById('wishMessage').value = '';
+        
+        // Create celebratory confetti - reduce for mobile
+        const confettiCount = window.innerWidth < 768 ? 30 : 50;
+        createConfetti(confettiCount);
+      });
+      
+      // Audio player with better mobile support
+      let isPlaying = false;
+      const musicPlayer = document.getElementById('musicPlayer');
+      const audio = document.getElementById('birthdaySong');
+      
+      // Preload audio for better mobile performance
+      audio.load();
+      
+      musicPlayer.addEventListener('click', function() {
+        if (isPlaying) {
+          audio.pause();
+          musicPlayer.querySelector('.music-icon').textContent = '♪';
+          musicPlayer.classList.remove('playing');
+        } else {
+          // Handle autoplay restrictions in modern browsers
+          const playPromise = audio.play();
+          
+          if (playPromise !== undefined) {
+            playPromise.then(_ => {
+              // Playback started successfully
+              musicPlayer.querySelector('.music-icon').textContent = '◼';
+              musicPlayer.classList.add('playing');
+            })
+            .catch(error => {
+              // Auto-play was prevented
+              console.log("Playback was prevented by browser: ", error);
+              alert("Please interact with the page first before playing music!");
+              isPlaying = false;
+            });
+          }
+        }
+        isPlaying = !isPlaying;
+      });
+      
+      // Handle page visibility changes (pause audio when tab not visible)
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden && isPlaying) {
+          audio.pause();
+          // But don't update UI or isPlaying state so it resumes when visible
+        } else if (!document.hidden && isPlaying) {
+          audio.play();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
