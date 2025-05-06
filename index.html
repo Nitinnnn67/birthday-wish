@@ -178,6 +178,7 @@
       object-fit: cover;
       border-radius: 10px;
       transition: transform 0.3s ease;
+      cursor: pointer;
     }
     
     /* Make videos properly sized and responsive */
@@ -307,6 +308,128 @@
       font-size: 14px;
       text-align: center;
       color: var(--dark);
+    }
+    
+    /* Media Modal for Fullscreen View */
+    .media-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+    
+    .media-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .media-modal-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .media-modal img, 
+    .media-modal video {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .close-media-modal {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transition: background 0.3s;
+    }
+    
+    .close-media-modal:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .media-caption {
+      position: absolute;
+      bottom: -40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: white;
+      font-size: 1rem;
+    }
+
+    /* Make images and videos clickable */
+    .timeline-img {
+      cursor: pointer;
+    }
+
+    /* Navigation buttons for media modal */
+    .media-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      color: white;
+      font-size: 2rem;
+      transition: background 0.3s;
+      z-index: 10000;
+    }
+    
+    .media-nav:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .media-prev {
+      left: 20px;
+    }
+    
+    .media-next {
+      right: 20px;
+    }
+    
+    @media (max-width: 768px) {
+      .media-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+      }
+      
+      .media-prev {
+        left: 10px;
+      }
+      
+      .media-next {
+        right: 10px;
+      }
     }
     
     /* Gallery Section */
@@ -1082,31 +1205,16 @@
     </div>
   </section>
   
-  <!-- Wish Modal -->
-  <!-- <div class="modal" id="wishModal">
-    <div class="modal-content">
-      <span class="close-modal" id="close-modal">×</span>
-      <h2>Send Birthday Wishes</h2>
-      <form class="wish-form" id="wishForm">
-        <input type="text" id="name" placeholder="Your Name" required>
-        <textarea id="wishMessage" placeholder="Write your birthday wish here..." required></textarea>
-        <button type="submit" class="wish-button">Send Wish</button>
-      </form>
-      <div class="wishes-display" id="wishesDisplay">
-        <h3>Birthday Wishes</h3>
-        <div class="wish-card">
-          <h3>Lisa</h3>
-          <p>Happy birthday! Wishing you all the happiness in the world on your special day!</p>
-          <small>May 6, 2025 at 9:30 AM</small>
-        </div>
-        <div class="wish-card">
-          <h3>Mike</h3>
-          <p>Many happy returns! May this year bring you success and joy in everything you do!</p>
-          <small>May 6, 2025 at 8:15 AM</small>
-        </div>
-      </div>
+  <!-- Media Modal for Fullscreen View -->
+  <div class="media-modal" id="mediaModal">
+    <div class="media-modal-content">
+      <span class="close-media-modal" id="closeMediaModal">×</span>
+      <div id="mediaContainer"></div>
+      <div class="media-caption" id="mediaCaption"></div>
+      <div class="media-nav media-prev" id="mediaPrev">❮</div>
+      <div class="media-nav media-next" id="mediaNext">❯</div>
     </div>
-  </div> -->
+  </div>
   
   <!-- Music Player -->
   <audio id="birthdaySong" loop>
@@ -1561,6 +1669,134 @@
           // But don't update UI or isPlaying state so it resumes when visible
         } else if (!document.hidden && isPlaying) {
           audio.play();
+        }
+      });
+      
+      // Media Modal Functionality
+      const mediaModal = document.getElementById('mediaModal');
+      const mediaContainer = document.getElementById('mediaContainer');
+      const closeMediaModal = document.getElementById('closeMediaModal');
+      const mediaCaption = document.getElementById('mediaCaption');
+      const mediaPrev = document.getElementById('mediaPrev');
+      const mediaNext = document.getElementById('mediaNext');
+      
+      // Collect all media elements
+      const mediaElements = document.querySelectorAll('.timeline-img');
+      let currentMediaIndex = 0;
+      
+      // Function to open media modal with specific content
+      function openMediaModal(index) {
+        const media = mediaElements[index];
+        currentMediaIndex = index;
+        
+        // Clear previous content
+        mediaContainer.innerHTML = '';
+        
+        // Create appropriate element based on media type
+        if (media.tagName.toLowerCase() === 'video') {
+          const videoClone = document.createElement('video');
+          videoClone.src = media.src;
+          videoClone.controls = true;
+          videoClone.autoplay = true;
+          videoClone.className = 'fullscreen-media';
+          mediaContainer.appendChild(videoClone);
+        } else {
+          const imgClone = document.createElement('img');
+          imgClone.src = media.src;
+          imgClone.alt = media.alt || '';
+          imgClone.className = 'fullscreen-media';
+          mediaContainer.appendChild(imgClone);
+        }
+        
+        // Set caption
+        mediaCaption.textContent = media.alt || '';
+        
+        // Show modal
+        mediaModal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+        
+        // Update navigation visibility
+        updateNavigation();
+      }
+      
+      // Function to close media modal
+      function closeMedia() {
+        mediaModal.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+        
+        // If there's a video playing, pause it when closing
+        const activeVideo = mediaContainer.querySelector('video');
+        if (activeVideo) {
+          activeVideo.pause();
+        }
+      }
+      
+      // Show next media
+      function nextMedia() {
+        if (currentMediaIndex < mediaElements.length - 1) {
+          openMediaModal(currentMediaIndex + 1);
+        }
+      }
+      
+      // Show previous media
+      function prevMedia() {
+        if (currentMediaIndex > 0) {
+          openMediaModal(currentMediaIndex - 1);
+        }
+      }
+      
+      // Update navigation buttons visibility
+      function updateNavigation() {
+        mediaPrev.style.display = currentMediaIndex > 0 ? 'flex' : 'none';
+        mediaNext.style.display = currentMediaIndex < mediaElements.length - 1 ? 'flex' : 'none';
+      }
+      
+      // Add click listeners to all media elements - SIMPLIFIED APPROACH
+      for (let i = 0; i < mediaElements.length; i++) {
+        mediaElements[i].onclick = function(e) {
+          // For videos, check if click is on controls
+          if (this.tagName.toLowerCase() === 'video') {
+            // If click is in the bottom area (roughly controls area)
+            const rect = this.getBoundingClientRect();
+            const clickY = e.clientY - rect.top;
+            
+            if (clickY > rect.height * 0.8) {
+              // Let the video controls handle the click
+              return true;
+            }
+          }
+          
+          // For all other clicks, open the modal
+          e.preventDefault();
+          openMediaModal(i);
+          return false;
+        };
+      }
+      
+      // Close modal when clicking the close button
+      closeMediaModal.addEventListener('click', closeMedia);
+      
+      // Close modal when clicking outside the content
+      mediaModal.addEventListener('click', function(e) {
+        if (e.target === mediaModal) {
+          closeMedia();
+        }
+      });
+      
+      // Navigation buttons
+      mediaPrev.addEventListener('click', prevMedia);
+      mediaNext.addEventListener('click', nextMedia);
+      
+      // Keyboard navigation
+      document.addEventListener('keydown', function(e) {
+        if (!mediaModal.classList.contains('active')) return;
+        
+        if (e.key === 'Escape') {
+          closeMedia();
+        } else if (e.key === 'ArrowRight') {
+          nextMedia();
+        } else if (e.key === 'ArrowLeft') {
+          prevMedia();
         }
       });
     });
