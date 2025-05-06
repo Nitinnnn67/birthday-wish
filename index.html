@@ -1217,8 +1217,9 @@
   </div>
   
   <!-- Music Player -->
-  <audio id="birthdaySong" loop>
+  <audio id="birthdaySong" preload="auto" loop>
     <source src="music/birthday-song.mp3" type="audio/mpeg">
+    <source src="music/birthday-song.mp3" type="audio/mp3">
     Your browser does not support the audio element.
   </audio>
   <div class="music-player" id="musicPlayer">
@@ -1633,16 +1634,33 @@
       const musicPlayer = document.getElementById('musicPlayer');
       const audio = document.getElementById('birthdaySong');
       
-      // Preload audio for better mobile performance
+      // Force audio to load - this helps with playback issues
       audio.load();
       
+      // Try to unlock audio on iOS devices with this workaround
+      function unlockAudio() {
+        // Create and play a silent buffer to unlock the audio
+        const silentAudio = new Audio("data:audio/mp3;base64,//MkxAAHiAICWABElBeKPL/RANb2w+yiT1g/gTok//lP/W/l3h8QO/OCdCqCW2Cw//MkxAQHkAIWUAhEmAQXWUOFW2dxPu//9mr60ElY5sseQ+xxesmHKtZr7bsqqX2L//MkxAgHAAJPUAhEmAWq1nqNGH3P/9bXJxhb/s8tf/8U/R/i9Q/k16EYjP/z+1mImP/MkxAoHEAIVAABEmAQCAD2Og+k/rH84UdFgb/92/Rk/xO0rU9mLlMzpDH/MkxA4HWAIVUABHGAH8YwEL/1nf1M5n/9YeBAn/MkxBQG0AITAABHmAD8DFDJBfrhUr/7f+S/Z7+EcjvKQ");
+        silentAudio.play().catch(() => {});
+      }
+      
+      // Unlock audio on user gesture (iOS requirement)
+      document.addEventListener('touchstart', unlockAudio, { once: true });
+      
       musicPlayer.addEventListener('click', function() {
+        // Try unlocking audio first (especially for iOS)
+        unlockAudio();
+        
         if (isPlaying) {
+          // Pause audio
           audio.pause();
           musicPlayer.querySelector('.music-icon').textContent = '♪';
           musicPlayer.classList.remove('playing');
+          isPlaying = false;
         } else {
-          // Handle autoplay restrictions in modern browsers
+          // Play audio with error handling
+          audio.volume = 1.0; // Ensure volume is at maximum
+          
           const playPromise = audio.play();
           
           if (playPromise !== undefined) {
@@ -1650,25 +1668,25 @@
               // Playback started successfully
               musicPlayer.querySelector('.music-icon').textContent = '◼';
               musicPlayer.classList.add('playing');
+              isPlaying = true;
             })
             .catch(error => {
-              // Auto-play was prevented
-              console.log("Playback was prevented by browser: ", error);
-              alert("Please interact with the page first before playing music!");
+              // Handle play error
+              console.error("Playback error:", error);
+              alert("Click again to play music! (Browser may be blocking autoplay)");
               isPlaying = false;
             });
           }
         }
-        isPlaying = !isPlaying;
       });
       
       // Handle page visibility changes (pause audio when tab not visible)
       document.addEventListener('visibilitychange', function() {
         if (document.hidden && isPlaying) {
           audio.pause();
-          // But don't update UI or isPlaying state so it resumes when visible
+          // Don't update isPlaying so it resumes when visible
         } else if (!document.hidden && isPlaying) {
-          audio.play();
+          audio.play().catch(err => console.error("Error resuming playback:", err));
         }
       });
       
@@ -1698,6 +1716,7 @@
           videoClone.src = media.src;
           videoClone.controls = true;
           videoClone.autoplay = true;
+          videoClone.width = Math.min(window.innerWidth * 0.8, 900);
           videoClone.className = 'fullscreen-media';
           mediaContainer.appendChild(videoClone);
         } else {
@@ -1751,27 +1770,24 @@
         mediaNext.style.display = currentMediaIndex < mediaElements.length - 1 ? 'flex' : 'none';
       }
       
-      // Add click listeners to all media elements - SIMPLIFIED APPROACH
-      for (let i = 0; i < mediaElements.length; i++) {
-        mediaElements[i].onclick = function(e) {
-          // For videos, check if click is on controls
+      // Add direct click event listeners to all media elements
+      document.querySelectorAll('.timeline-img').forEach((media, index) => {
+        media.addEventListener('click', function(e) {
+          // For videos, only let video controls handle clicks if clicked in control area
           if (this.tagName.toLowerCase() === 'video') {
-            // If click is in the bottom area (roughly controls area)
             const rect = this.getBoundingClientRect();
             const clickY = e.clientY - rect.top;
-            
+            // If click is in controls area (roughly bottom 20%)
             if (clickY > rect.height * 0.8) {
-              // Let the video controls handle the click
-              return true;
+              return true; // Let the browser handle the click on controls
             }
           }
           
-          // For all other clicks, open the modal
           e.preventDefault();
-          openMediaModal(i);
+          openMediaModal(index);
           return false;
-        };
-      }
+        });
+      });
       
       // Close modal when clicking the close button
       closeMediaModal.addEventListener('click', closeMedia);
